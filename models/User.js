@@ -1,5 +1,8 @@
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+//config
+const { config } = require('../config/config')
 
 
 const UserSchema = new mongoose.Schema({
@@ -34,5 +37,25 @@ UserSchema.pre('save', async function(next) {
 
     next()
 })
+
+
+//agregamos una funcion para obtener el nombre del usuario en controllers
+// UserSchema.methods.getName = function () {
+//     return this.name
+// }
+
+
+//funcion para generar el jwt
+UserSchema.methods.createJWT = function () {
+    return (
+        jwt.sign({
+            userId: this._id,
+            name: this.name
+        },
+        config.jwtSecret,
+        { expiresIn: config.jwtLifetime}
+        )
+    )
+}
 
 module.exports = mongoose.model('User',UserSchema)
