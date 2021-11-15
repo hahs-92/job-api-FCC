@@ -2,6 +2,8 @@ require('express-async-errors')
 const express = require('express')
 //config
 const { config } = require('./config/config')
+//db
+const connectDB = require('./db/connect')
 //routes
 const routeAuth = require('./routes/auth')
 const routeJob = require('./routes/jobs')
@@ -31,6 +33,7 @@ const PORT = config.port || 5000
 
 const start = async () => {
     try {
+        await connectDB(config.mongoUri)
         app.listen(PORT, () =>
             console.log(`Server is listening on port ${PORT}...`)
         );
