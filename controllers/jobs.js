@@ -9,8 +9,9 @@ const getJob = async (req, res) => {
 
 
 const createJob = async (req, res) => {
-    res.send('create job')
+    res.json(req.user)//viene del middleware
 }
+
 
 const updateJob = async (req, res) => {
     res.send('update job')
@@ -19,6 +20,7 @@ const updateJob = async (req, res) => {
 const deleteJob = async (req, res) => {
     res.send('deletd job')
 }
+
 
 module.exports = {
     getAllJobs,

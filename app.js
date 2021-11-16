@@ -4,6 +4,8 @@ const express = require('express')
 const { config } = require('./config/config')
 //db
 const connectDB = require('./db/connect')
+//middlewares
+const authentificateUser = require('./middlewares/authentication')
 //routes
 const routeAuth = require('./routes/auth')
 const routeJob = require('./routes/jobs')
@@ -24,7 +26,7 @@ app.get('/', (req, res) => {
 
 
 app.use('/api/v1/auth',routeAuth)
-app.use('/api/v1/jobs',routeJob)
+app.use('/api/v1/jobs',authentificateUser,routeJob)
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware)
